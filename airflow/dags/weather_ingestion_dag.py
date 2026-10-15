@@ -1,7 +1,11 @@
+import os
+
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.providers.databricks.operators.databricks import DatabricksRunNowOperator
 from datetime import datetime, timedelta
+
+DATABRICKS_JOB_ID = int(os.environ["DATABRICKS_JOB_ID"])
 
 default_args = {
     "owner": "robert",
@@ -27,7 +31,7 @@ with DAG(
     process_task = DatabricksRunNowOperator(
         task_id="process_silver_gold",
         databricks_conn_id="databricks_default",
-        job_id=970781462229868,
+        job_id=DATABRICKS_JOB_ID,
     )
 
     ingest_task >> process_task

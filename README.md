@@ -134,4 +134,3 @@ There is no CD: nothing is deployed automatically.
 - No monitoring or alerting beyond Airflow's UI and task retries. Next steps would be failure notifications, data-quality checks on Bronze (row counts, null rates), and logging/metrics.
 - Only one location is ingested at a time (a single latitude/longitude pair).
 - The Silver/Gold job is not versioned or tested in this repository.
-- CI does not run the tests yet (see above).

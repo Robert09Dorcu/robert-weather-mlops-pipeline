@@ -7,7 +7,7 @@ from typing import List, Optional
 import boto3
 import pandas as pd
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from pydantic import BaseModel
 
 load_dotenv()
@@ -64,7 +64,7 @@ def get_latest_weather():
 
 
 @app.get("/weather/history", response_model=List[WeatherRecord])
-def get_weather_history(days: int = 7):
+def get_weather_history(days: int = Query(default=7, ge=1)):
     df = load_gold_data()
     df_sorted = df.sort_values("date", ascending=False)
     records = df_sorted.head(days).to_dict(orient="records")

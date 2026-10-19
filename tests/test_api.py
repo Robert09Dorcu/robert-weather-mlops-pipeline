@@ -126,6 +126,12 @@ class TestHistory:
         # Rows with real values are untouched.
         assert by_date["2024-01-03"]["target_next_day_temp"] == 4.0
 
+    @pytest.mark.parametrize("days", [0, -1, -5])
+    def test_days_below_one_is_rejected_by_validation(self, client, days):
+        response = client.get("/weather/history", params={"days": days})
+        assert response.status_code == 422
+        client.mock_get_object.assert_not_called()
+
     def test_non_integer_days_is_rejected_by_validation(self, client):
         response = client.get("/weather/history", params={"days": "abc"})
         assert response.status_code == 422
